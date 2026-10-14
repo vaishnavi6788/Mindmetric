@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MindMetric | Assessment Results</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #080e1b;
+            color: #edf3ff;
+            font-family: 'DM Sans', sans-serif;
+            min-height: 100vh;
+        }
+
+        nav {
+            padding: 22px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #1c2940;
+        }
+
+        .logo {
+            font: 800 25px 'Manrope', sans-serif;
+            color: #6de4d0;
+        }
+
+        nav a {
+            color: #a9b8d0;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        nav a:hover {
+            color: #6de4d0;
+        }
+
+        main {
+            width: 90%;
+            max-width: 1100px;
+            margin: 45px auto;
+        }
+
+        .eyebrow {
+            color: #6de4d0;
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        h1 {
+            font: 800 clamp(30px, 5vw, 43px) 'Manrope', sans-serif;
+            margin: 12px 0;
+        }
+
+        .subtitle {
+            color: #9cacc5;
+            line-height: 1.7;
+            max-width: 650px;
+        }
+
+        .notice {
+            margin: 28px 0;
+            padding: 15px 18px;
+            background: #132237;
+            border: 1px solid #28415c;
+            border-radius: 12px;
+            color: #c3d2e8;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            min-width: 0;
+            background: #101a2b;
+            border: 1px solid #24334b;
+            border-radius: 18px;
+            padding: 26px;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .card:hover {
+            border-color: #3b596d;
+            transform: translateY(-2px);
+        }
+
+        .card h2 {
+            font: 700 19px 'Manrope', sans-serif;
+            margin-bottom: 18px;
+        }
+
+        .details {
+            color: #b9c8dd;
+            font-size: 14px;
+            line-height: 2;
+            overflow-wrap: anywhere;
+        }
+
+        .details strong {
+            color: #edf3ff;
+        }
+
+        .score-area {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin: 22px 0 5px;
+        }
+
+        .score-circle {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            border: 7px solid #29465b;
+            border-top-color: #6de4d0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .score-circle strong {
+            font: 800 28px 'Manrope', sans-serif;
+        }
+
+        .score-circle span {
+            color: #93a7c1;
+            font-size: 11px;
+        }
+
+        .score-text {
+            color: #9cacc5;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .metric {
+            margin: 24px 0;
+        }
+
+        .metric-top {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            color: #cbd7e9;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+
+        .track {
+            height: 8px;
+            background: #26354b;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .fill {
+            height: 100%;
+            background: linear-gradient(90deg, #6de4d0, #38bdf8);
+            border-radius: 20px;
+            transition: width 0.5s ease;
+        }
+
+        .recommendations {
+            grid-column: 1 / -1;
+        }
+
+        .recommendation {
+            padding: 16px 0;
+            border-bottom: 1px solid #26354b;
+            color: #b9c8dd;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .recommendation:last-child {
+            border-bottom: none;
+        }
+
+        .recommendation strong {
+            display: block;
+            color: #edf3ff;
+            margin-bottom: 5px;
+            font: 700 15px 'Manrope', sans-serif;
+        }
+
+        .actions {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin-top: 28px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 13px 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        .primary {
+            background: #6de4d0;
+            color: #07131b;
+        }
+
+        .primary:hover {
+            background: #8af0df;
+            transform: translateY(-1px);
+        }
+
+        .secondary {
+            border: 1px solid #34445e;
+            color: #e4ecf8;
+        }
+
+        .secondary:hover {
+            border-color: #6de4d0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #7789a4;
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        @media (max-width: 700px) {
+            .grid {
+                grid-template-columns: minmax(0, 1fr);
+            }
+
+            .recommendations {
+                grid-column: auto;
+            }
+
+            main {
+                margin-top: 30px;
+            }
+
+            .score-area {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            nav {
+                padding: 18px 5%;
+            }
+
+            .card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <div class="logo">MindMetric</div>
+        <a href="/">← Back to Home</a>
+    </nav>
+
+    <main>
+        <div class="eyebrow">Cognitive Assessment</div>
+
+        <h1>Your Assessment Summary</h1>
+
+        <p class="subtitle">
+            Review your submitted responses and explore educational
+            suggestions for supporting your cognitive well-being.
+        </p>
+
+        <div class="notice">
+            <strong>Important:</strong>
+            These are illustrative demo scores generated from form
+            responses. They are not validated cognitive measurements,
+            a dementia-risk prediction, or a medical diagnosis.
+            Do not use them for medical decisions.
+        </div>
+
+        <div class="grid">
+
+            <!-- OVERALL OVERVIEW -->
+            <section class="card">
+                <h2>Overall Overview</h2>
+
+                <div class="details">
+                    {% if age %}
+                    <p><strong>Age:</strong> {{ age }}</p>
+                    <p><strong>Education:</strong> {{ education or 'Not provided' }}</p>
+                    <p><strong>Memory Response:</strong> {{ memory or 'Not provided' }}</p>
+                    <p><strong>Attention Response:</strong> {{ attention or 'Not provided' }}</p>
+                    <p><strong>Language Response:</strong> {{ language or 'Not provided' }}</p>
+                    {% else %}
+                    <p>Submit the assessment form to see your results.</p>
+                    {% endif %}
+                </div>
+
+                <div class="score-area">
+                    <div class="score-circle">
+                        <strong>
+                            {{ overall_score if overall_score is not none else '--' }}
+                        </strong>
+                        <span>Demo score / 100</span>
+                    </div>
+
+                    <div class="score-text">
+                        <strong>Overall demo score</strong>
+
+                        <p style="margin-top: 8px;">
+                            {% if overall_score is not none %}
+                            This is the average of the available Memory,
+                            Attention, and Language demo scores.
+                            {% else %}
+                            No scores are available yet. Complete the
+                            assessment to view the demo summary.
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- COGNITIVE AREAS -->
+            <section class="card">
+                <h2>Cognitive Areas</h2>
+
+                {% for label, score in [
+                    ('Memory', memory_score),
+                    ('Attention', attention_score),
+                    ('Language', language_score)
+                ] %}
+
+                <div class="metric">
+                    <div class="metric-top">
+                        <span>{{ label }}</span>
+                        <span>
+                            {{ score ~ '/100' if score is not none else 'Not scored' }}
+                        </span>
+                    </div>
+
+                    <div class="track">
+                        <div
+                            class="fill"
+                            style="width: {{ score if score is not none else 0 }}%">
+                        </div>
+                    </div>
+                </div>
+
+                {% endfor %}
+
+                <p class="score-text">
+                    These visual indicators represent demo calculations
+                    only. They do not measure clinical cognitive ability.
+                </p>
+            </section>
+
+            <!-- PERSONALIZED WELL-BEING RECOMMENDATIONS -->
+            <section class="card recommendations">
+                <h2>Personalized Well-being Recommendations</h2>
+
+                <p class="score-text" style="margin-bottom: 15px;">
+                    These educational suggestions are selected using
+                    your demo responses. They are not a diagnosis or
+                    a measure of dementia risk.
+                </p>
+
+                {% if memory_score is not none %}
+                <div class="recommendation">
+                    <strong>Memory Support</strong>
+
+                    {% if memory_score < 60 %}
+                    Try short reading exercises, remembering a short
+                    shopping list, or playing simple matching games.
+                    Practise at a comfortable pace.
+                    {% else %}
+                    Maintain your routine with reading, learning new
+                    skills, storytelling, and enjoyable memory games.
+                    {% endif %}
+                </div>
+                {% endif %}
+
+                {% if attention_score is not none %}
+                <div class="recommendation">
+                    <strong>Focus and Attention</strong>
+
+                    {% if attention_score < 60 %}
+                    Try one task at a time, take regular breaks, and
+                    reduce distractions while studying or working.
+                    {% else %}
+                    Maintain your focus routine with short study
+                    sessions, planned breaks, and activities you enjoy.
+                    {% endif %}
+                </div>
+                {% endif %}
+
+                {% if language_score is not none %}
+                <div class="recommendation">
+                    <strong>Language and Communication</strong>
+
+                    {% if language_score < 60 %}
+                    Try describing a familiar picture, reading aloud,
+                    or discussing a favourite topic with someone you trust.
+                    {% else %}
+                    Keep enjoying conversations, reading, storytelling,
+                    and learning new words at your own pace.
+                    {% endif %}
+                </div>
+                {% endif %}
+
+                <div class="recommendation">
+                    <strong>Healthy Daily Routine</strong>
+
+                    Maintain regular sleep, physical activity, balanced
+                    meals, and social connections as part of your general
+                    well-being.
+                </div>
+
+                <div class="recommendation">
+                    <strong>When to Seek Help</strong>
+
+                    If changes in memory, attention, or communication
+                    affect daily life, speak with a qualified healthcare
+                    professional.
+                </div>
+            </section>
+
+        </div>
+
+        <div class="actions">
+            <a class="btn primary" href="/assessment">
+                Retake Assessment
+            </a>
+
+            <a class="btn secondary" href="/">
+                Back to Dashboard
+            </a>
+        </div>
+    </main>
+
+    <footer>
+        MindMetric · Final-Year Educational Project
+        <br>
+        Not intended for diagnosis, treatment, or medical decision-making.
+    </footer>
+</body>
+</html>

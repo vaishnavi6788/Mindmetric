@@ -1,0 +1,684 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MindMetric | Cognitive Assessment</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "DM Sans", sans-serif;
+            background:
+                radial-gradient(circle at 10% 10%, rgba(45, 212, 191, 0.12), transparent 30%),
+                radial-gradient(circle at 90% 20%, rgba(59, 130, 246, 0.14), transparent 30%),
+                #07111f;
+            color: #eef6ff;
+            min-height: 100vh;
+        }
+
+        nav {
+            height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 7%;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            background: rgba(7,17,31,0.7);
+        }
+
+        .logo {
+            font-family: "Manrope", sans-serif;
+            font-size: 23px;
+            font-weight: 800;
+        }
+
+        .logo span {
+            color: #2dd4bf;
+        }
+
+        .back {
+            color: #a9b8c9;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .back:hover {
+            color: white;
+        }
+
+        .container {
+            width: min(900px, 90%);
+            margin: 55px auto;
+        }
+
+        .heading {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 8px 15px;
+            border-radius: 30px;
+            background: rgba(45,212,191,0.1);
+            border: 1px solid rgba(45,212,191,0.25);
+            color: #5eead4;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        h1 {
+            font-family: "Manrope", sans-serif;
+            font-size: clamp(32px, 5vw, 50px);
+            margin: 18px 0 12px;
+        }
+
+        .heading p {
+            color: #91a4b8;
+            max-width: 620px;
+            margin: auto;
+            line-height: 1.7;
+        }
+
+        .progress {
+            margin: 35px 0;
+        }
+
+        .progress-top {
+            display: flex;
+            justify-content: space-between;
+            color: #8fa2b5;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            width: 20%;
+            height: 100%;
+            background: linear-gradient(90deg, #2dd4bf, #38bdf8);
+            border-radius: 10px;
+        }
+
+        .card {
+            background: rgba(15, 29, 47, 0.72);
+            border: 1px solid rgba(255,255,255,0.09);
+            border-radius: 24px;
+            padding: 32px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 25px 70px rgba(0,0,0,0.25);
+        }
+
+        .section-title {
+            font-family: "Manrope", sans-serif;
+            font-size: 21px;
+            margin-bottom: 7px;
+        }
+
+        .section-subtitle {
+            color: #8498ad;
+            font-size: 14px;
+            margin-bottom: 28px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+        }
+
+        .field {
+            margin-bottom: 5px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 9px;
+            color: #dce8f4;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 14px 15px;
+            border-radius: 13px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: #102033;
+            color: white;
+            outline: none;
+            font-family: inherit;
+            transition: 0.25s;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: rgba(45,212,191,0.65);
+            box-shadow: 0 0 0 3px rgba(45,212,191,0.08);
+        }
+
+        select option {
+            background: #102033;
+        }
+
+        textarea {
+            min-height: 130px;
+            resize: vertical;
+            line-height: 1.7;
+        }
+
+        .question {
+            margin-top: 28px;
+            padding-top: 28px;
+            border-top: 1px solid rgba(255,255,255,0.07);
+        }
+
+        .question > p {
+            font-size: 15px;
+            font-weight: 600;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .options {
+            display: grid;
+            gap: 10px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 13px 15px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.035);
+            border: 1px solid rgba(255,255,255,0.07);
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .option:hover {
+            border-color: rgba(45,212,191,0.35);
+            background: rgba(45,212,191,0.05);
+        }
+
+        .option input {
+            width: auto;
+            margin: 0;
+            accent-color: #2dd4bf;
+        }
+
+        .speech-box {
+            margin-top: 18px;
+            padding: 18px;
+            border: 1px solid rgba(45,212,191,0.2);
+            border-radius: 15px;
+            background: rgba(45,212,191,0.045);
+        }
+
+        .speech-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        button {
+            border: none;
+            padding: 15px 32px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #2dd4bf, #38bdf8);
+            color: #04131e;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.25s;
+            box-shadow: 0 12px 30px rgba(45,212,191,0.18);
+        }
+
+        button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 16px 35px rgba(45,212,191,0.25);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .speech-button {
+            padding: 12px 17px;
+            font-size: 13px;
+            border-radius: 11px;
+        }
+
+        .stop-button {
+            background: #24364b;
+            color: #edf3ff;
+            border: 1px solid #40516a;
+            box-shadow: none;
+        }
+
+        .speech-status {
+            color: #6de4d0;
+            font-size: 13px;
+            line-height: 1.7;
+            margin-top: 14px;
+        }
+
+        .privacy-note {
+            color: #91a4b8;
+            font-size: 12px;
+            line-height: 1.7;
+            margin-top: 10px;
+        }
+
+        .submit-area {
+            margin-top: 35px;
+            text-align: center;
+        }
+
+        .note {
+            margin-top: 14px;
+            font-size: 12px;
+            color: #91a4b8;
+            line-height: 1.7;
+        }
+
+        @media (max-width: 700px) {
+            nav {
+                padding: 0 5%;
+            }
+
+            .container {
+                width: 92%;
+                margin: 35px auto;
+            }
+
+            .card {
+                padding: 22px;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .speech-actions button {
+                width: 100%;
+            }
+
+            .submit-area > button {
+                width: 100%;
+                padding: 15px 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav>
+    <div class="logo">Mind<span>Metric</span></div>
+    <a href="/" class="back">← Back to Home</a>
+</nav>
+
+<main class="container">
+
+    <div class="heading">
+        <span class="badge">AI COGNITIVE ASSESSMENT</span>
+
+        <h1>Let's understand your mind.</h1>
+
+        <p>
+            Answer a few questions about your cognitive health.
+            Your responses will be used to display an educational
+            assessment summary.
+        </p>
+    </div>
+
+    <div class="progress">
+        <div class="progress-top">
+            <span>Assessment Progress</span>
+            <span>Step 1 of 5</span>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill"></div>
+        </div>
+    </div>
+
+    <form action="/result" method="POST">
+
+        <div class="card">
+
+            <h2 class="section-title">Basic Information</h2>
+
+            <p class="section-subtitle">
+                Provide basic information before answering the questions.
+            </p>
+
+            <div class="grid">
+
+                <div class="field">
+                    <label for="age">Age</label>
+                    <input
+                        type="number"
+                        id="age"
+                        name="age"
+                        min="1"
+                        max="120"
+                        placeholder="Enter your age"
+                        required
+                    >
+                </div>
+
+                <div class="field">
+                    <label for="education">Education Level</label>
+                    <select id="education" name="education" required>
+                        <option value="">Select education</option>
+                        <option value="school">School</option>
+                        <option value="graduate">Graduate</option>
+                        <option value="postgraduate">Postgraduate</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="question">
+
+                <p>How often do you forget recently learned information?</p>
+
+                <div class="options">
+
+                    <label class="option">
+                        <input type="radio" name="memory" value="0" required>
+                        Rarely
+                    </label>
+
+                    <label class="option">
+                        <input type="radio" name="memory" value="1">
+                        Sometimes
+                    </label>
+
+                    <label class="option">
+                        <input type="radio" name="memory" value="2">
+                        Frequently
+                    </label>
+
+                </div>
+
+            </div>
+
+            <div class="question">
+
+                <p>How would you describe your ability to concentrate?</p>
+
+                <div class="options">
+
+                    <label class="option">
+                        <input type="radio" name="attention" value="0" required>
+                        Very Good
+                    </label>
+
+                    <label class="option">
+                        <input type="radio" name="attention" value="1">
+                        Average
+                    </label>
+
+                    <label class="option">
+                        <input type="radio" name="attention" value="2">
+                        Difficult
+                    </label>
+
+                </div>
+
+            </div>
+
+            <div class="question">
+
+                <p>Do you sometimes have difficulty finding the right words?</p>
+
+                <div class="options">
+
+                    <label class="option">
+                        <input type="radio" name="language" value="0" required>
+                        Never
+                    </label>
+
+                    <label class="option">
+                        <input type="radio" name="language" value="1">
+                        Sometimes
+                    </label>
+
+                    <label class="option">
+                        <input type="radio" name="language" value="2">
+                        Frequently
+                    </label>
+
+                </div>
+
+            </div>
+
+            <div class="question">
+
+                <p>
+                    Describe how you have been feeling about your memory
+                    and thinking recently.
+                </p>
+
+                <textarea
+                    id="responseText"
+                    name="text"
+                    placeholder="Write 5–10 sentences about your daily activities, memory, concentration, or anything you have noticed..."
+                    required
+                ></textarea>
+
+                <div class="speech-box">
+
+                    <div class="speech-actions">
+                        <button
+                            type="button"
+                            class="speech-button"
+                            id="startSpeech"
+                        >
+                            🎙️ Speak Your Response
+                        </button>
+
+                        <button
+                            type="button"
+                            class="speech-button stop-button"
+                            id="stopSpeech"
+                            disabled
+                        >
+                            Stop
+                        </button>
+                    </div>
+
+                    <p
+                        class="speech-status"
+                        id="speechStatus"
+                        role="status"
+                        aria-live="polite"
+                    >
+                        Press “Speak Your Response” and allow microphone
+                        access when your browser asks.
+                    </p>
+
+                    <p class="privacy-note">
+                        Speech recognition depends on browser support and
+                        may process audio through your browser's speech
+                        service. Review the recognized text before submitting.
+                        You can also type your response manually.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="submit-area">
+
+                <button type="submit">
+                    Analyze My Cognitive Health →
+                </button>
+
+                <div class="note">
+                    This educational demo does not diagnose dementia or
+                    replace a healthcare professional.
+                </div>
+
+            </div>
+
+        </div>
+
+    </form>
+
+</main>
+
+<script>
+    (() => {
+        const textArea = document.getElementById("responseText");
+        const startButton = document.getElementById("startSpeech");
+        const stopButton = document.getElementById("stopSpeech");
+        const status = document.getElementById("speechStatus");
+
+        const SpeechRecognition =
+            window.SpeechRecognition ||
+            window.webkitSpeechRecognition;
+
+        if (!SpeechRecognition) {
+            startButton.disabled = true;
+            status.textContent =
+                "Speech recognition is not supported by this browser. " +
+                "Please type your response or try a supported browser.";
+            return;
+        }
+
+        const recognition = new SpeechRecognition();
+
+        recognition.lang = "en-IN";
+        recognition.continuous = true;
+        recognition.interimResults = true;
+
+        let isListening = false;
+        let baseText = "";
+        let finalTranscript = "";
+
+        recognition.onstart = () => {
+            isListening = true;
+            startButton.disabled = true;
+            stopButton.disabled = false;
+
+            status.textContent =
+                "Listening... Speak clearly. Your words will appear in the response box.";
+        };
+
+        recognition.onresult = (event) => {
+            let interimTranscript = "";
+
+            for (let i = event.resultIndex; i < event.results.length; i++) {
+                const transcript = event.results[i][0].transcript;
+
+                if (event.results[i].isFinal) {
+                    finalTranscript += transcript + " ";
+                } else {
+                    interimTranscript += transcript;
+                }
+            }
+
+            const spokenText =
+                (finalTranscript + interimTranscript).trim();
+
+            textArea.value = [baseText, spokenText]
+                .filter(Boolean)
+                .join(" ");
+
+            status.textContent = interimTranscript
+                ? "Recognizing: " + interimTranscript
+                : "Speech added to your response. You can edit the text before submitting.";
+        };
+
+        recognition.onerror = (event) => {
+            const messages = {
+                "not-allowed":
+                    "Microphone permission denied. Allow microphone access or type your response.",
+                "no-speech":
+                    "No speech was detected. Try again and speak clearly.",
+                "audio-capture":
+                    "No microphone was found. Check your microphone or type your response.",
+                "network":
+                    "A network issue interrupted speech recognition. Please try again."
+            };
+
+            status.textContent =
+                messages[event.error] ||
+                "Speech recognition could not continue. Please try again or type your response.";
+        };
+
+        recognition.onend = () => {
+            isListening = false;
+            startButton.disabled = false;
+            stopButton.disabled = true;
+
+            if (
+                !status.textContent.startsWith("Microphone permission") &&
+                !status.textContent.startsWith("No speech") &&
+                !status.textContent.startsWith("No microphone") &&
+                !status.textContent.startsWith("A network issue") &&
+                !status.textContent.startsWith("Speech recognition could not")
+            ) {
+                status.textContent =
+                    "Recording stopped. Review and edit your response before submitting.";
+            }
+        };
+
+        startButton.addEventListener("click", () => {
+            if (isListening) return;
+
+            baseText = textArea.value.trim();
+            finalTranscript = "";
+
+            try {
+                recognition.start();
+            } catch (error) {
+                status.textContent =
+                    "Speech recognition is starting. Please wait a moment and try again.";
+            }
+        });
+
+        stopButton.addEventListener("click", () => {
+            if (isListening) {
+                recognition.stop();
+            }
+        });
+
+        window.addEventListener("beforeunload", () => {
+            if (isListening) {
+                recognition.abort();
+            }
+        });
+    })();
+</script>
+
+</body>
+</html>
